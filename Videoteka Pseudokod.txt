@@ -1,0 +1,83 @@
+Display "Dobrodošli u SIZE videoteku"
+Display "Da biste nastavili pritisnite bilo koje dugme"
+Display "-----------------------------"
+
+Display "Molimo izaberite opciju:"
+Display "1. [Log-in]"
+Display "2. Nemate račun? Kliknite ovdje da ga napravite."
+
+Read userChoice
+if user Choice 1 then
+  Display "1. Administrator"
+  Display "2. User"
+   if userChoice = 1 then
+      Display "Password:"
+       Read adminPassword
+
+    if adminPassword =TAČAN then
+        Display "Dobrodošli, Administrator!"
+        Display "Molimo izaberite opciju:"
+        Display "1. Prikaži popis filmova"
+        Display "2. Edituj popis filmova"
+        Display "3. Lista iznajmljenih filmova"
+        Display "4. Upozori/Kazni korisnike"
+
+        Read adminOption
+
+        if adminOption is 1 then
+            // Kod za ispis
+        else if adminOption is 2 then
+            // Kod za editovanje popisa
+        else if adminOption is 3 then
+            // Kod za provjeru liste
+        else if adminOption is 4 then
+            // Kod za upozoravanje/kaznjavanje
+        else
+            Display "Invalid option. Please try again."
+    else
+        Display "Incorrect password. Please try again."
+
+  else if userChoice is 2 then
+      Display "Enter User Password:"
+      Read userPassword
+
+      if userPassword is correct then
+          Display "Welcome, User!"
+                if userWarning is correct then
+                                  Display "Upozoreni Ste zbog nepoštivanja pravila"
+                                  Display "Buduće nepoštivanje neće biti tolerisano"
+                                  Display "CLEAR"
+          Display "Molimo izaberite opciju:"
+          Display "1. Izaberite film za iznajmiti ili kupiti"
+          Display "2. Ocjenite film"
+          Display "3. Historija iznajmljivanja"
+
+          Read userOption
+
+          if userOption is 1 then
+            // Kod za biranje filma
+          else if userOption is 2 then
+            // Kod za ocjenjivanje filma
+          else if userOption is 3 then
+            // Kod za ispis iznajmljenih filmova
+          else
+              Display "Izaberite valjanu opciju"
+      else
+          Display "Izaberite valjanu opciju"
+
+else if userChoice is 2 then
+    Display "Unesite Vaše ime:"
+    Read realName
+    Display "Unesite Vaše prezime:"
+    Read realSurname
+    Display "Unesite ime Vašeg računa:"
+    Read newUsername
+    Display "Unesite Password:"
+    Read newPassword
+
+    // Kod za kreiranje i spremanje novog korisnika
+    Display "Novi korisnik kreiran uspješno. Sada se možete ulogovati"
+    Program.Reset
+
+else
+    Display "Izaberite valjanu opciju"
