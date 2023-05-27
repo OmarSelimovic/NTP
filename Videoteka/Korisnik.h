@@ -16,7 +16,8 @@ void skrivenaFunkcija();
 void unosNadimak(string inf1);        //ovo su sve deklaracije funkcija u Korisnik.cpp koje ce imati pristup privatnim clanovima klase Korisnici
 void unosIme(string inf2);
 void unosLoginSifra(string inf3);
-void VratiFilm(string Film);
+void unosUzeti_filmovi(vector <string> inf4);
+bool VratiFilm(string Film);
 void UzmiFilm(string Film);
 
 private:
