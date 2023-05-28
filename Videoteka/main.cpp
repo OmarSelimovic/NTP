@@ -16,7 +16,9 @@ bool Pocetna_Stranica(); //----------------------->Pocetna stranica za izbog log
 void PravljenjeKorisnika(vector<Korisnici>& users);//--------> Na ovu funkciju proslijeđujemo potpunu listu korisnika po referenci jer ce biti editovana ovdje
 bool LoginAuth(Korisnici& User, vector<Korisnici> ListaKorisnika , int& redniBroj); //Trenutni korisnik po ref. jer ce u njega biti ucitane vrijednosti iz Korisnik za kasniju upotrebu
 void DobrodosliNazad(Korisnici TrenutniKorisnik); //------------->Screen dobrodoslice nakon uspjesne autentikacije
-void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika, Korisnici& TrenKorisnik, int RBRTrenKor );
+
+void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika, Korisnici& TrenKorisnik, int RBRTrenKor);
+
                                                    /*Eh ovo je do sada najveca funkcija u programu, ovo je funkcija glavnog menija koja ce u biti raditi sve.
                                                     Od ucitavanja liste filmova na display sa ocjenom, izabira filmova, ostavljanja ocjena filmovima, dodavanja novih filmova,
                                                     listanja lsite korisnika od strane administratora.
@@ -38,7 +40,7 @@ $$\   $$ |  $$ |   $$  /    $$ |..............\$$$  /    $$ |  $$ |  $$ |$$ |   
  \______/ \______|\________|\________|..........\_/    \______|\_______/ \________| \______/   \__|   \________|\__|  \__|\__|  \__| )";
 
 cout<<"\n \n"<<"                                        PRITISNITE BILO KOJE DUGME DA BISTE NASTAVILI"<<endl;
-cin.ignore();
+cin.get();
 
 system("CLS");
 
@@ -47,31 +49,34 @@ system("CLS");
 void DobrodosliNazad(Korisnici TrenutniKorisnik)
 {
     system("CLS");
-    if(TrenutniKorisnik.getAdmin()==true)
+    if(TrenutniKorisnik.Admin==true)
     {
         cout<<"...Administratorske ovlasti ucitane..."<<endl;
         cout<<"-----------Dobrodosli nazad-----------"<<endl;
-        cin.ignore();
-        cout<<"PRITISNITE BILO KOJE DUGME DA BISTE NASTAVILI"<<endl;
+        Sleep(2500);
+        return;
     }
-    else{
+    else
+    {
         cout<<"__________Dobrodosli nazad "<<TrenutniKorisnik.getIme()<<"__________"<<"\n"<<endl;
            if (TrenutniKorisnik.getBrUzFilmova()==0)
               {
-               cout<<"Nemate iznajmljenih filmova, vrijeme je da to promjenite ;)"<<endl;
-
-            // ILI OVDJE NASTAJE NEKA GRESKA ILI NAKON ZAVRSETKA FUNKCIJE U MAIN FUNKCIJI
+               cout<<"Nemate iznajmljenih filmova, vrijeme je da to promjenite ;)";
+               Sleep(3000);
+               return;
               }
            else
               {
-             cout<<"Tenutno imate "<<TrenutniKorisnik.getBrUzFilmova()<<" uzetih filmova."<<endl;
-             cout<<"A ti filmovi su:"<<endl;
-             for(int i=0; i<TrenutniKorisnik.getBrUzFilmova();i++)//koristeci funkciju getBrUzFilmova i dodavanjem broja uzetih filmova u strukturu Korisnik sprejcujem potrebu(nastavlja se ispod)
-             cout<<"["<<TrenutniKorisnik.getBrUzFilmova()<<".]-"<<TrenutniKorisnik.Uzeti_filmovi[i]<<endl; //da svaki put brojim koliko filmova ima kod korisnika
-             cin.ignore();
-             cout<<"PRITISNITE BILO KOJE DUGME DA BISTE NASTAVILI"<<endl;
+               cout<<"Tenutno imate "<<TrenutniKorisnik.getBrUzFilmova()<<" uzetih filmova."<<endl;
+               cout<<"A ti filmovi su:"<<endl;
+               for(int i=0; i<TrenutniKorisnik.getBrUzFilmova();i++)//koristeci funkciju getBrUzFilmova i dodavanjem broja uzetih filmova u strukturu Korisnik sprejcujem potrebu(nastavlja se ispod)
+               cout<<"["<<TrenutniKorisnik.getBrUzFilmova()<<".]-"<<TrenutniKorisnik.Uzeti_filmovi[i]<<endl; //da svaki put brojim koliko filmova ima kod korisnika
+               int g=2000*TrenutniKorisnik.getBrUzFilmova();
+               Sleep(g);
+               return;
               }
-       }
+    }
+
 }
 bool Pocetna_Stranica()
 {
@@ -121,7 +126,7 @@ bool LoginAuth(Korisnici& User , vector<Korisnici> ListaKorisnika , int& redniBr
          system("CLS");
          cout<<"Pogresan username/password!\n \n ";
          brPokusaja-=1;
-         cout<<"Imate jos "<<brPokusaja<<" pokusaja.";
+         cout<<"Preostali broj pokusaja: "<<brPokusaja<<endl;
          Sleep(2000);
          }
   return(false);
@@ -140,7 +145,7 @@ void PravljenjeKorisnika(vector<Korisnici>& users)
       cout<<"-------------------------------------------------------------------------------"<<endl;
       cout<<"        >>>Sve stavke osim Imena i Prezimena se pisu bez razmaka<<<\n\n"<<endl;
       cout<<"Za nastavak pritisnite bilo koje dugme.";
-      cin.ignore();cin.ignore();
+      cin.get();cin.get();
       system("CLS");
       cout<<"Izaberete vas login username: ";
              cin>>noviNadimak;
@@ -200,12 +205,11 @@ void PravljenjeKorisnika(vector<Korisnici>& users)
       system("CLS");
 
 }
-void GlavniMeni (vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika, Korisnici& TrenKorisnik, int RBRTrenKor)
+void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika, Korisnici& TrenKorisnik, int RBRTrenKor)
 {
-
     if(TrenKorisnik.Admin==false)
     {
-       int Login_izbor = 0;
+       int izbor = 0;
        system("CLS");
        cout << "Izaberite jednu od opcija:" << endl;
        cout << "[1]-Zelim naruciti film" << endl;
@@ -214,13 +218,13 @@ void GlavniMeni (vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnik
        cout << "[4]-EXIT" << endl;
        cout << "-------------------------------" << endl;
 
-       while (!(cin >> Login_izbor) || (Login_izbor <1 && Login_izbor>4))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
+       while (!(cin >> izbor) || (izbor <1 && izbor>4))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
            {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Dozvoljava samo unos borjeva
             cout << "Molimo unesite valjan izbor :" << endl;
            }
-       switch (Login_izbor)
+       switch (izbor)
              {
                case 1:
                       //  TO-DO napraviti void funkciju za ispis, odabir i narucivanje filma funkciji prodlijediti vrijednosti iz ove funkcije po referenci
@@ -230,7 +234,7 @@ void GlavniMeni (vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnik
                          *TAKOĐER VAŽNO* dati korisniku opciju da ocjeni film pri vracanju*/
                case 3:
                       //samo izlistati sve filmove na screen, basic.
-               case 4: int br=1;
+               case 4: cout<<"Izabrali ste cetvrtu opciju"<<endl;
                       // poziva se funkcija spremanja informacija u glavne vektore i poziva se Sekvenca_Gasenja();
              }
     }
@@ -238,9 +242,6 @@ void GlavniMeni (vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnik
     {
 
      //Ovdje ide nesto slično ovom iznad samo što će biti druge, administratorske opcije
-
-     // >>>>>VAŽNO<<<<<<
-     // program se moze compajlati ali nisam provjeravao punu funkcionalnost update-a, potrebno je uraditi QA :D
     }
 }
 void Sekvenca_Gasenja()
@@ -291,7 +292,7 @@ int main()
 
         if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik)) //Pozivamo funkciju autentikacije i saljemo joj buffer usera, njegov redni broj i potpunu listu
             { DobrodosliNazad(TrenutniKorisnik);
-              GlavniMeni(Film,Korisnik,TrenutniKorisnik,RBrTrenutniKorisnik); //OVU FUNKCIJU MI NECE POKRENUTI
+              GlavniMeni(Film,Korisnik,TrenutniKorisnik,RBrTrenutniKorisnik);
             }
          else
             PreviseGresaka(); //-------------------------->Neka lijepa rijec prije nego terminiramo program zbog pogresnih pokusaja logovanja
@@ -300,7 +301,7 @@ int main()
     else//------------------------------------------------->Ukoliko user izabere da se odmah loguje preskace se funkcija pravljenja korisnika.
     {
       if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik))
-        { DobrodosliNazad(TrenutniKorisnik);
+        {   DobrodosliNazad(TrenutniKorisnik);
             GlavniMeni(Film,Korisnik,TrenutniKorisnik,RBrTrenutniKorisnik);
         }
        else

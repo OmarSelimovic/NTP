@@ -27,7 +27,7 @@ void UzmiFilm(string Film);
     string LoginSifra;              //private memberi klase Korisnik
     vector <string> Uzeti_filmovi;
 unsigned int brojUzetihFilmova=0;
-    bool Admin;
+    bool Admin=false;
 
 
 };
