@@ -11,13 +11,12 @@
 
 
 using namespace std;
-void Dobrodosli();   //---------------> Graffiti art screen za pcoetak programa
-bool Pocetna_Stranica(); //----------------------->Pocetna stranica za izbog log.in ili pravljenje novog usera
-void PravljenjeKorisnika(vector<Korisnici>& users);//--------> Na ovu funkciju proslijeđujemo potpunu listu korisnika po referenci jer ce biti editovana ovdje
-void Sekvenca_Gasenja(); //---------------------------------> Funkcija koja gasi program
+void Dobrodosli();
+bool Pocetna_Stranica();             //Pocetna stranica za izbog log.in ili pravljenje novog usera
+void PravljenjeKorisnika(vector<Korisnici>& users);          // Na ovu funkciju proslijeđujemo potpunu listu korisnika po referenci jer ce biti editovana ovdje
+void Sekvenca_Gasenja();                                     // Funkcija koja gasi program
 bool LoginAuth(Korisnici& User, vector<Korisnici> ListaKorisnika , int& redniBroj); //Trenutni korisnik po ref. jer ce u njega biti ucitane vrijednosti iz Korisnik za kasniju upotrebu
-void DobrodosliNazad(Korisnici TrenutniKorisnik); //------------->Screen dobrodoslice nakon uspjesne autentikacije
-void PreviseGresaka();//--------------------------------------->Ukratko-funkcija poziva sekvencu gasenja
+
 // Ovo je samo da razdvojim deklaracije funkcija od samij funkcija pošto je već postano previše zagušeno
 void Dobrodosli()
 {
@@ -38,24 +37,6 @@ cin.ignore();
 system("CLS");
 
 
-}
-void DobrodosliNazad(Korisnici TrenutniKorisnik)
-{
-    system("CLS");
-    cout<<"_____Dobrodosli nazad "<<TrenutniKorisnik.getIme()<<"_____"<<"\n"<<endl;
-    if (TrenutniKorisnik.getBrUzFilmova()==0)
-        cout<<"Nemate iznajmljenih filmova, vrijeme je da to promjenite ;) "<<endl;
-    else
-        {
-          cout<<"Tenutno imate "<<TrenutniKorisnik.getBrUzFilmova()<<" uzetih filmova."<<endl;
-          cout<<"A ti filmovi su:"<<endl;
-          for(int i=0; i<TrenutniKorisnik.getBrUzFilmova();i++) //koristeci funkciju getBrUzFilmova i dodavanjem broja uzetih filmova u strukturu Korisnik
-             {                                                  //sprecujem potrebu da dvaki put brojim koliko filmova ima korisnik
-              int j=i++;
-              cout<<"["<<j<<".]-"<<TrenutniKorisnik.Uzeti_filmovi[i]<<endl;
-             }
-
-        }
 }
 bool Pocetna_Stranica()
 {
@@ -92,10 +73,13 @@ bool LoginAuth(Korisnici& User , vector<Korisnici> ListaKorisnika , int& redniBr
           for (int i=0;i<ListaKorisnika.size();i++)
              {
                   if(ListaKorisnika[i].getNadimak()==Username && ListaKorisnika[i].getLoginSifra()==Password)
-                    /*Ova petlja djeluje komplikovano ali ona lista vektor strukture Korisnik od prvog do zadnje varijable u vektoru i poredi da li objekt iz vektora
+                    /*Ova petlja djeluje komplikovano ali ona lista vektor klase Korisnik od prvog do zadnje varijable u vektoru i poredi da li objekt iz vektora
                       ima isti username i password kao osoba koja se pokusava ulogovati, drugim rijecima trazi tog korisnika u bazi*/
                   {
-                     User=ListaKorisnika[i]; //---->pravimo klon usera sa glavne liste korisnika na priveremni buffer
+                     User.unosNadimak(Username); //-------------------------------->Ovdje u biti ucitavamo vrijednosti o korisniku u neki privremeni buffer
+                     User.unosLoginSifra(Password); //----------------------------->koji ce biti koristen dok je user ulogovan.Ovo je korisno da ne bi morali
+                     User.unosIme(ListaKorisnika[i].getIme()); //------------------>listati cijelu bazu na koji vektor da dodamo novi iznajmljeni film svaki put
+                     User.unosUzeti_filmovi(ListaKorisnika[i].getUzeti_filmovi());//kada dođe do neke promjene.
 
                      redniBroj=i; /*Ovaj redni broj ce mi biti koristan da kasnije kada budem vracao nove informacije o korisniku da znam gdje ih vratiti bez potrebe
                                     da listam cijelu bazu podataka da bih ga nasao*/
@@ -112,7 +96,7 @@ bool LoginAuth(Korisnici& User , vector<Korisnici> ListaKorisnika , int& redniBr
 }
 void PravljenjeKorisnika(vector<Korisnici>& users)
 {
-      string noviNadimak, novoIme, novaLoginSifra; /* -------> Ovo su varijable koje ce biti upisane u zasebne membere objekta strukture Korisnici koji se zove "UserVideoteke"
+      string noviNadimak, novoIme, novaLoginSifra; /* -------> Ovo su varijable koje ce biti upisane u zasebne membere objekta klase Korisnici koji se zove "UserVideoteke"
                                                               Pojedini memberi objekta nece biti inicialitirani odmah te ce biti ostavljeni na njihovim default vrijednostima
                                                               Default vrijednost membera "vector <string> Uzeti_filmovi" ce biti prazan vektor
                                                               Default vrijednost membera "bool Admin;" će biti False*/
@@ -120,23 +104,18 @@ void PravljenjeKorisnika(vector<Korisnici>& users)
 
 
       system("CLS");
-      cout<<"Zdravo, za pravljenje novog naloga bit ce potrebno da unesete par informacija."<<endl;
-      cout<<"-------------------------------------------------------------------------------"<<endl;
-      cout<<"        >>>Sve stavke osim Imena i Prezimena se pisu bez razmaka<<<\n\n"<<endl;
-      cout<<"Za nastavak pritisnite bilo koje dugme.";
+      cout<<"Zdravo, za pravljenje novog racuna bit ce potrebno da unesete par informacija."<<endl;
+      cout<<"Sve stavke osim Imena i Prezimena se pisu bez razmaka."<<endl;
+      cout<<"Za nastavak pritisnite bilo koje dugme."<<endl;
       cin.ignore();cin.ignore();
       system("CLS");
       cout<<"Izaberete vas login username: ";
              cin>>noviNadimak;
-             for(int i=0;i<users.size();i++)
-             {
-               while(noviNadimak==users[i].getNadimak())
-                 {
-                   cout<<"Zao nam je ali taj username je vec zauzet"<<endl;
-                   cout<<"Izaberite neki drugi username:"<<endl;
-                   cin>>noviNadimak;
-                 }
-             }
+                                                    /* TO-DO Ovdje dodati funkciju koja ce provjeravati da li je username vec iskoristen,
+                                                      to cemo raditi tako sto uzimamo spremljen vektor Korisnik klase Korisnici i listamo username svakog od
+                                                      njih pojedinacno funkcijom for(int i=0; i< Korisnici.size(); i++) UserVideoteke[i].getNadimak();
+                                                      U slucaju da dode do poklapanje username-a izbaciti poruku "Zao nam je taj user name je zauzet,
+                                                      Izaberite neki drugi */
 
       cout<<"\n Spremljeno :) "<<endl;
       cout<<"\n Sada unosite vase puno Ime i Prezime: ";
@@ -166,7 +145,7 @@ void PravljenjeKorisnika(vector<Korisnici>& users)
       cout<<"[IIIIIIIIII] 100%"<<endl;
       Sleep(2000);
       system("CLS");
-      UserVideoteke.unosNadimak(noviNadimak);  //funkcija .unosNadimak je void funkcija iz Korisnik.cpp koja upisuje informacije u objekt strukture Korisnik
+      UserVideoteke.unosNadimak(noviNadimak);  //funkcija .unosNadimak je void funkcija iz Korisnik.cpp koja upisuje informacije u objekt klase Korisnik
       UserVideoteke.unosIme(novoIme);
       UserVideoteke.unosLoginSifra(novaLoginSifra);
       cout<<"Informacije o Vasem novom nalogu su:"<<endl;
@@ -204,62 +183,52 @@ void Sekvenca_Gasenja()
      Sleep(2000);
      exit(0);
 }
-void PreviseGresaka()
-{
-  system("CLS");
-      cout<<"Zao nam je, ali pogrijesili ste previse puta"<<"\n"<<"Kontaktirajte administratora."<<endl;
-      Sleep(5000);
-  Sekvenca_Gasenja();
-}
 int main()
 {
-    vector<Korisnici> Korisnik;//----------------------->Glavni vektor o korisnicima u koji ce se ucitavati podaci i sa kojeg ce se pisati pdoaci za pohranu.
-    vector<Filmovi> Film;//----------------------------->Glavni vektor o filmovima u koji ce se ucitavati podaci i sa kojeg ce se pisati pdoaci za pohranu.
-    Korisnici TrenutniKorisnik;//----------------------->Ovo je privremena varijabla koja cuva informacije o trenutnom korisniku.
-    int RBrTrenutniKorisnik;/*-------------------------->Redni broj trenutnog korisnika (Ovo ce olaksati da kasnije kada ga budemo
+    vector<Korisnici> Korisnik;
+    Korisnici TrenutniKorisnik;                         //Ovo je privremena varijabla koja cuva informacije o trenutnom korisniku.
+    int RBrTrenutniKorisnik;                            /*Redni broj trenutnog korisnika (Ovo ce olaksati da kasnije kada ga budemo
                                                         unosili nazad u sistem da ga ne moramo traziti na kojem je mjestu u vektoru).*/
 
+    vector<Filmovi> Film;
 
      string command_window = "mode con: cols=132 lines=35"; //Odeđuje komandu koju je moguce mogificirati
-     system(command_window.c_str());                        //Uzima parametre prethodno modificirane komande i oređuje velicinu terminal prozora
+     system(command_window.c_str());                    //Uzima parametre prethodno modificirane komande i oređuje velicinu terminal prozora
 
 
      Dobrodosli();
-     if (!Pocetna_Stranica()) /*-------------------------->Ako je odabir usera da pravi novi racun(FALSE) prvo se poziva funkcija pravljenja
+     if (!Pocetna_Stranica())                           /*Ako je odabir usera da pravi novi racun prvo se poziva funkcija pravljenja
                                                            a potom se poziva funkcija za log-in screen*/
      {
-        PravljenjeKorisnika(Korisnik);//------------------>Pozivamo funkciju za pravljenje novog korisnika i proslijedjujemo joj vektor korisnika
+        PravljenjeKorisnika(Korisnik);                   //Pozivamo funkciju za pravljenje novog korisnika i proslijedjujemo joj vektor korisnika
 
-        if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik)) //Pozivamo funkciju autentikacije i saljemo joj buffer usera, njegov redni broj i potpunu listu
-            { DobrodosliNazad(TrenutniKorisnik);
-
-              //nekadrugafunkcija(Film, Korisnik, TrenutniKorisnik, RBrTrenutniKorisnik);    TO-DO FUNKCIJA IZBORNOG MENIA
-
-                           /*---U ovoj funkciji "nekadrugafunkcija" se displaya lsita izbora sta sve korisnik ili administrator zeli da uradi
-                                  u njoj ce doci do editovanja lista filmova i editovanja liste korisnika i vrijednosti.
-                             ---Po kraju ili izvršenju ove funkcije se vracamo nazad gdje cemo uraditi spremanje promjenjenih podataka u glavne vektore.
-                             ---Potom pozivamo funkciju koja ce spremiti sadrzaje vektora u zasebne fajlove  u txt file
-                                 CSV(comma-seeparated values) formata ili nekog sličnog*/
+        if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik))
+            {
+                system("CLS");
+                cout<<"Informacije su tacne."<<endl;
+              //nekadrugafunkcija(Korisnik,Film, RBrTrenutniKorisnik);    TO-DO FUNKCIJA IZBORNOG MENIA
             }
          else
-            PreviseGresaka(); //-------------------------->Neka lijepa rijec prije nego terminiramo program zbog pogresnih pokusaja logovanja
-      }
+            {   system("CLS");
+                cout<<"Zao nam je pogrijesili ste previse puta"<<"\n"<<"Kontaktirajte administratora."<<endl;
+                  Sleep(5000);
+                  Sekvenca_Gasenja();
+            }
 
-    else//------------------------------------------------->Ukoliko user izabere da se odmah loguje preskace se funkcija pravljenja korisnika.
+     }
+
+    else
     {
       if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik))
-        { DobrodosliNazad(TrenutniKorisnik);
-            //nekadrugafunkcija(Film, Korisnik, TrenutniKorisnik, RBrTrenutniKorisnik);    TO-DO FUNKCIJA IZBORNOG MENIA
-
-                           /*---U ovoj funkciji "nekadrugafunkcija" se displaya lsita izbora sta sve korisnik ili administrator zeli da uradi
-                                  u njoj ce doci do editovanja lista filmova i editovanja liste korisnika i vrijednosti.
-                             ---Po kraju ili izvršenju ove funkcije se vracamo nazad gdje cemo uraditi spremanje promjenjenih podataka u glavne vektore.
-                             ---Potom pozivamo funkciju koja ce spremiti sadrzaje vektora u zasebne fajlove  u txt file
-                                 CSV(comma-seeparated values) formata ili nekog sličnog*/
+        {
+                             // nekadrugafunkcija(Korisnik,Film);    TO-DO FUNKCIJA IZBORNOG MENIA
         }
        else
-         PreviseGresaka();
-
+         {  system("CLS");
+             cout<<"Zao nam je pogrijesili ste previse puta"<<"\n"<<"Kontaktirajte administratora."<<endl;
+           Sleep(5000);
+           Sekvenca_Gasenja();
+         }
     }
 
 
