@@ -14,10 +14,15 @@ using namespace std;
 void Dobrodosli();   //---------------> Graffiti art screen za pcoetak programa
 bool Pocetna_Stranica(); //----------------------->Pocetna stranica za izbog log.in ili pravljenje novog usera
 void PravljenjeKorisnika(vector<Korisnici>& users);//--------> Na ovu funkciju proslijeđujemo potpunu listu korisnika po referenci jer ce biti editovana ovdje
-void Sekvenca_Gasenja(); //---------------------------------> Funkcija koja gasi program
 bool LoginAuth(Korisnici& User, vector<Korisnici> ListaKorisnika , int& redniBroj); //Trenutni korisnik po ref. jer ce u njega biti ucitane vrijednosti iz Korisnik za kasniju upotrebu
 void DobrodosliNazad(Korisnici TrenutniKorisnik); //------------->Screen dobrodoslice nakon uspjesne autentikacije
+void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika, Korisnici& TrenKorisnik, int RBRTrenKor );
+                                                   /*Eh ovo je do sada najveca funkcija u programu, ovo je funkcija glavnog menija koja ce u biti raditi sve.
+                                                    Od ucitavanja liste filmova na display sa ocjenom, izabira filmova, ostavljanja ocjena filmovima, dodavanja novih filmova,
+                                                    listanja lsite korisnika od strane administratora.
+                                                    MOŽDA DODAM OPCIJU DA ADMIN UPOZORI ILI CAK IZBRISE KORISNIKA*/
 void PreviseGresaka();//--------------------------------------->Ukratko-funkcija poziva sekvencu gasenja
+void Sekvenca_Gasenja(); //---------------------------------> Funkcija koja gasi program
 // Ovo je samo da razdvojim deklaracije funkcija od samij funkcija pošto je već postano previše zagušeno
 void Dobrodosli()
 {
@@ -42,20 +47,31 @@ system("CLS");
 void DobrodosliNazad(Korisnici TrenutniKorisnik)
 {
     system("CLS");
-    cout<<"_____Dobrodosli nazad "<<TrenutniKorisnik.getIme()<<"_____"<<"\n"<<endl;
-    if (TrenutniKorisnik.getBrUzFilmova()==0)
-        cout<<"Nemate iznajmljenih filmova, vrijeme je da to promjenite ;) "<<endl;
-    else
-        {
-          cout<<"Tenutno imate "<<TrenutniKorisnik.getBrUzFilmova()<<" uzetih filmova."<<endl;
-          cout<<"A ti filmovi su:"<<endl;
-          for(int i=0; i<TrenutniKorisnik.getBrUzFilmova();i++) //koristeci funkciju getBrUzFilmova i dodavanjem broja uzetih filmova u strukturu Korisnik
-             {                                                  //sprecujem potrebu da dvaki put brojim koliko filmova ima korisnik
-              int j=i++;
-              cout<<"["<<j<<".]-"<<TrenutniKorisnik.Uzeti_filmovi[i]<<endl;
-             }
+    if(TrenutniKorisnik.getAdmin()==true)
+    {
+        cout<<"...Administratorske ovlasti ucitane..."<<endl;
+        cout<<"-----------Dobrodosli nazad-----------"<<endl;
+        cin.ignore();
+        cout<<"PRITISNITE BILO KOJE DUGME DA BISTE NASTAVILI"<<endl;
+    }
+    else{
+        cout<<"__________Dobrodosli nazad "<<TrenutniKorisnik.getIme()<<"__________"<<"\n"<<endl;
+           if (TrenutniKorisnik.getBrUzFilmova()==0)
+              {
+               cout<<"Nemate iznajmljenih filmova, vrijeme je da to promjenite ;)"<<endl;
 
-        }
+            // ILI OVDJE NASTAJE NEKA GRESKA ILI NAKON ZAVRSETKA FUNKCIJE U MAIN FUNKCIJI
+              }
+           else
+              {
+             cout<<"Tenutno imate "<<TrenutniKorisnik.getBrUzFilmova()<<" uzetih filmova."<<endl;
+             cout<<"A ti filmovi su:"<<endl;
+             for(int i=0; i<TrenutniKorisnik.getBrUzFilmova();i++)//koristeci funkciju getBrUzFilmova i dodavanjem broja uzetih filmova u strukturu Korisnik sprejcujem potrebu(nastavlja se ispod)
+             cout<<"["<<TrenutniKorisnik.getBrUzFilmova()<<".]-"<<TrenutniKorisnik.Uzeti_filmovi[i]<<endl; //da svaki put brojim koliko filmova ima kod korisnika
+             cin.ignore();
+             cout<<"PRITISNITE BILO KOJE DUGME DA BISTE NASTAVILI"<<endl;
+              }
+       }
 }
 bool Pocetna_Stranica()
 {
@@ -66,7 +82,7 @@ bool Pocetna_Stranica()
     cout << "[2]-Novi korisnik" << endl;
     cout << "____________________________" << endl;
 
-    while (!(cin >> Login_izbor) || (Login_izbor != 1 && Login_izbor != 2))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
+    while(!(cin>>Login_izbor)||(Login_izbor != 1 && Login_izbor != 2))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
         {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Dozvoljava samo unos borjeva
@@ -184,6 +200,49 @@ void PravljenjeKorisnika(vector<Korisnici>& users)
       system("CLS");
 
 }
+void GlavniMeni (vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika, Korisnici& TrenKorisnik, int RBRTrenKor)
+{
+
+    if(TrenKorisnik.Admin==false)
+    {
+       int Login_izbor = 0;
+       system("CLS");
+       cout << "Izaberite jednu od opcija:" << endl;
+       cout << "[1]-Zelim naruciti film" << endl;
+       cout << "[2]-Zelim vratiti film/ove" << endl;
+       cout << "[3]-Zelim vidjeti izbor filmova"<<endl;
+       cout << "[4]-EXIT" << endl;
+       cout << "-------------------------------" << endl;
+
+       while (!(cin >> Login_izbor) || (Login_izbor <1 && Login_izbor>4))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
+           {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Dozvoljava samo unos borjeva
+            cout << "Molimo unesite valjan izbor :" << endl;
+           }
+       switch (Login_izbor)
+             {
+               case 1:
+                      //  TO-DO napraviti void funkciju za ispis, odabir i narucivanje filma funkciji prodlijediti vrijednosti iz ove funkcije po referenci
+               case 2:
+                      /* TO-DO napraviti void funkciju za listanje uzetih filmova iz inventorija korisnika, brisanje filma iz inventorija i povecavanje broja
+                         to jeste kolicinu tog filma glavnom inventoriju videoteke.
+                         *TAKOĐER VAŽNO* dati korisniku opciju da ocjeni film pri vracanju*/
+               case 3:
+                      //samo izlistati sve filmove na screen, basic.
+               case 4: int br=1;
+                      // poziva se funkcija spremanja informacija u glavne vektore i poziva se Sekvenca_Gasenja();
+             }
+    }
+    else
+    {
+
+     //Ovdje ide nesto slično ovom iznad samo što će biti druge, administratorske opcije
+
+     // >>>>>VAŽNO<<<<<<
+     // program se moze compajlati ali nisam provjeravao punu funkcionalnost update-a, potrebno je uraditi QA :D
+    }
+}
 void Sekvenca_Gasenja()
 {
      system("CLS");
@@ -232,14 +291,7 @@ int main()
 
         if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik)) //Pozivamo funkciju autentikacije i saljemo joj buffer usera, njegov redni broj i potpunu listu
             { DobrodosliNazad(TrenutniKorisnik);
-
-              //nekadrugafunkcija(Film, Korisnik, TrenutniKorisnik, RBrTrenutniKorisnik);    TO-DO FUNKCIJA IZBORNOG MENIA
-
-                           /*---U ovoj funkciji "nekadrugafunkcija" se displaya lsita izbora sta sve korisnik ili administrator zeli da uradi
-                                  u njoj ce doci do editovanja lista filmova i editovanja liste korisnika i vrijednosti.
-                             ---Po kraju ili izvršenju ove funkcije se vracamo nazad gdje cemo uraditi spremanje promjenjenih podataka u glavne vektore.
-                             ---Potom pozivamo funkciju koja ce spremiti sadrzaje vektora u zasebne fajlove  u txt file
-                                 CSV(comma-seeparated values) formata ili nekog sličnog*/
+              GlavniMeni(Film,Korisnik,TrenutniKorisnik,RBrTrenutniKorisnik); //OVU FUNKCIJU MI NECE POKRENUTI
             }
          else
             PreviseGresaka(); //-------------------------->Neka lijepa rijec prije nego terminiramo program zbog pogresnih pokusaja logovanja
@@ -249,13 +301,7 @@ int main()
     {
       if(LoginAuth(TrenutniKorisnik,Korisnik,RBrTrenutniKorisnik))
         { DobrodosliNazad(TrenutniKorisnik);
-            //nekadrugafunkcija(Film, Korisnik, TrenutniKorisnik, RBrTrenutniKorisnik);    TO-DO FUNKCIJA IZBORNOG MENIA
-
-                           /*---U ovoj funkciji "nekadrugafunkcija" se displaya lsita izbora sta sve korisnik ili administrator zeli da uradi
-                                  u njoj ce doci do editovanja lista filmova i editovanja liste korisnika i vrijednosti.
-                             ---Po kraju ili izvršenju ove funkcije se vracamo nazad gdje cemo uraditi spremanje promjenjenih podataka u glavne vektore.
-                             ---Potom pozivamo funkciju koja ce spremiti sadrzaje vektora u zasebne fajlove  u txt file
-                                 CSV(comma-seeparated values) formata ili nekog sličnog*/
+            GlavniMeni(Film,Korisnik,TrenutniKorisnik,RBrTrenutniKorisnik);
         }
        else
          PreviseGresaka();
