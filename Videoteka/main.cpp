@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <algorithm>
+#include <conio.h>  //Koristit cu ga samo za getch();---> "pritisnite dugme da nastavite"
 #include "Korisnik.h"
 #include "Film.h"
 
@@ -22,8 +23,9 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
                                                    /*Eh ovo je do sada najveca funkcija u programu, ovo je funkcija glavnog menija koja ce u biti raditi sve.
                                                     Od ucitavanja liste filmova na display sa ocjenom, izabira filmova, ostavljanja ocjena filmovima, dodavanja novih filmova,
                                                     listanja lsite korisnika od strane administratora.
-                                                    MOŽDA DODAM OPCIJU DA ADMIN UPOZORI ILI CAK IZBRISE KORISNIKA*/
-void PreviseGresaka();//--------------------------------------->Ukratko-funkcija poziva sekvencu gasenja
+                                                    MOŽDA DODAM OPCIJU DA ADMIN UPOZORI ILI CAK IZBRISE KORISNIKA 3:) */
+void PokaziFilmove(vector<Filmovi> ListaFilmova);//---------> Basic output funkcija za formatiran ispis filmova i njihovog opisa u videoteci
+void PreviseGresaka();//------------------------------------>Ukratko-funkcija poziva sekvencu gasenja
 void Sekvenca_Gasenja(); //---------------------------------> Funkcija koja gasi program
 // Ovo je samo da razdvojim deklaracije funkcija od samij funkcija pošto je već postano previše zagušeno
 void Dobrodosli()
@@ -40,7 +42,7 @@ $$\   $$ |  $$ |   $$  /    $$ |..............\$$$  /    $$ |  $$ |  $$ |$$ |   
  \______/ \______|\________|\________|..........\_/    \______|\_______/ \________| \______/   \__|   \________|\__|  \__|\__|  \__| )";
 
 cout<<"\n \n"<<"                                        PRITISNITE BILO KOJE DUGME DA BISTE NASTAVILI"<<endl;
-cin.get();
+getch();
 
 system("CLS");
 
@@ -53,7 +55,7 @@ void DobrodosliNazad(Korisnici TrenutniKorisnik)
     {
         cout<<"...Administratorske ovlasti ucitane..."<<endl;
         cout<<"-----------Dobrodosli nazad-----------"<<endl;
-        Sleep(2500);
+        getch();
         return;
     }
     else
@@ -62,7 +64,7 @@ void DobrodosliNazad(Korisnici TrenutniKorisnik)
            if (TrenutniKorisnik.getBrUzFilmova()==0)
               {
                cout<<"Nemate iznajmljenih filmova, vrijeme je da to promjenite ;)";
-               Sleep(3000);
+               getch();
                return;
               }
            else
@@ -71,8 +73,7 @@ void DobrodosliNazad(Korisnici TrenutniKorisnik)
                cout<<"A ti filmovi su:"<<endl;
                for(int i=0; i<TrenutniKorisnik.getBrUzFilmova();i++)//koristeci funkciju getBrUzFilmova i dodavanjem broja uzetih filmova u strukturu Korisnik sprejcujem potrebu(nastavlja se ispod)
                cout<<"["<<TrenutniKorisnik.getBrUzFilmova()<<".]-"<<TrenutniKorisnik.Uzeti_filmovi[i]<<endl; //da svaki put brojim koliko filmova ima kod korisnika
-               int g=2000*TrenutniKorisnik.getBrUzFilmova();
-               Sleep(g);
+               getch();
                return;
               }
     }
@@ -211,14 +212,15 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
     {
        int izbor = 0;
        system("CLS");
-       cout << "Izaberite jednu od opcija:" << endl;
-       cout << "[1]-Zelim naruciti film" << endl;
-       cout << "[2]-Zelim vratiti film/ove" << endl;
-       cout << "[3]-Zelim vidjeti izbor filmova"<<endl;
-       cout << "[4]-EXIT" << endl;
-       cout << "-------------------------------" << endl;
+       cout << "   Izaberite jednu od opcija:" << endl;
+       cout << "|-------------------------------|" << endl;
+       cout << "|[1]-Zelim vidjeti izbor filmova|"<<endl;
+       cout << "|[2]-Zelim naruciti film        |" << endl;
+       cout << "|[3]-Zelim vratiti film/ove     |" << endl;
+       cout << "|[4]-EXIT                       |" << endl;
+       cout << "|-------------------------------|" << endl;
 
-       while (!(cin >> izbor) || (izbor <1 && izbor>4))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
+       while (!(cin >> izbor) || (izbor <1) || (izbor>4))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
            {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Dozvoljava samo unos borjeva
@@ -226,8 +228,9 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
            }
        switch (izbor)
              {
-               case 1:
-                      //  TO-DO napraviti void funkciju za ispis, odabir i narucivanje filma funkciji prodlijediti vrijednosti iz ove funkcije po referenci
+               case 1:{
+                        PokaziFilmove(ListaFilmova);
+                      }
                case 2:
                       /* TO-DO napraviti void funkciju za listanje uzetih filmova iz inventorija korisnika, brisanje filma iz inventorija i povecavanje broja
                          to jeste kolicinu tog filma glavnom inventoriju videoteke.
@@ -243,6 +246,30 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
 
      //Ovdje ide nesto slično ovom iznad samo što će biti druge, administratorske opcije
     }
+}
+void PokaziFilmove(vector<Filmovi> ListaFilmova)//-------> Ispisuje potpunu listu filmova korisniku na prozor
+{
+    system("CLS");
+    Filmovi buffer; //------------> Nisam siguran ali mislim da ako ovo uvedem, da cu olaksati programu da ne mora svaki put listati sav vektor
+    for(int i=0;i<ListaFilmova.size();i++)
+        {
+            buffer=ListaFilmova[i];
+            cout<<"---------------------------------------------------------"<<endl;
+            cout<<"["<<i<<"]-"<<buffer.ImeFilma<<endl;
+            cout<<"Zanr filma: "<<buffer.ZanrFilma<<endl;
+            if(buffer.fOcjena()==0)
+            cout<<"Film jos nije ocijenjen."<<endl;
+            else
+            cout<<"Ocjena filma : "<<buffer.fOcjena()<<endl;
+            if(buffer.Broj_filmova==0)
+            cout<<"Nazalost, ovog filma nemamo na stanju."<<endl;
+            else
+            cout<<"Ovih filmova na stanju imamo: "<<buffer.fOcjena()<<endl;
+            cout<<"---------------------------------------------------------\n \n"<<endl;
+            Sleep(2500);
+
+        }
+     getch();
 }
 void Sekvenca_Gasenja()
 {
@@ -282,7 +309,6 @@ int main()
 
      string command_window = "mode con: cols=132 lines=35"; //Odeđuje komandu koju je moguce mogificirati
      system(command_window.c_str());                        //Uzima parametre prethodno modificirane komande i oređuje velicinu terminal prozora
-
 
      Dobrodosli();
      if (!Pocetna_Stranica()) /*-------------------------->Ako je odabir usera da pravi novi racun(FALSE) prvo se poziva funkcija pravljenja
