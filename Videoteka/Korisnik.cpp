@@ -27,25 +27,16 @@ unsigned int Korisnici::getBrUzFilmova(){ //funkcija koja vraca broj uzetih film
     return brojUzetihFilmova;
 }
 void Korisnici::UzmiFilm(string Film){ //funkcija koja ubacuje novouzeti film u inventory osobe
-    if (brojUzetihFilmova==5)
-    {
-      system("CLS");
-      cout<<"Zao nam je ali vec imate maksimalan dozvoljen broj filmova."<<endl;
-      cout<<"Ukoliko zelite iznajmiti novi film, morate vratiti neki od onih koje imate"<<endl;
-      cin.ignore();
-    }
-  else
-    {
-      system("CLS");
       Uzeti_filmovi.push_back(Film);
-      cout<<"Uzivajte u gledanju ^_^"<<endl;
-    }
+      cout<<"\n \n Uzivajte u gledanju ^_^"<<endl;
+      povecaj_brUzFilmova();
 }
 bool Korisnici::VratiFilm(string Film){ //funkcija koja vadi film sa liste uzetih filmova
   for(int i=0; i<Uzeti_filmovi.size();i++)                   //Uzima proslijeđeni argument i skida ga sa liste iznajmljenih
        if(Uzeti_filmovi[i]==Film)
           {  Uzeti_filmovi.erase(Uzeti_filmovi.begin() + i);
              cout<<"Hvala Vam na saradnji"<<endl;
+             smanji_brUzFilmova();
              return(true);
           }
        else

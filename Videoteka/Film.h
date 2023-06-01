@@ -13,6 +13,8 @@ struct Filmovi
     vector<int> FOcjene();
     float fOcjena();
     unsigned int FBroj_filmova();   //Funkcije strukture Filmovi
+void smanjBroj_filmova();
+void povecajBroj_filmova();
 void unosFIme(string podatak1);
 void unosFZanr(string podatak2);
 void unosFBroj_filmova(int podatak3);

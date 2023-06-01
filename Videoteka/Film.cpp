@@ -16,7 +16,7 @@ string Filmovi::FZanr(){
     return ZanrFilma;
 }
 
-unsigned int Filmovi::FBroj_filmova(){
+unsigned int Filmovi::FBroj_filmova(){   //Vraca broj filmova
      return Broj_filmova;
 }
 
@@ -24,6 +24,13 @@ vector<int> Filmovi::FOcjene(){
     return OcjeneFilma;
 }
 
+void Filmovi::smanjBroj_filmova(){
+  Broj_filmova--;
+}
+
+void Filmovi::povecajBroj_filmova(){
+  Broj_filmova++;
+}
 float Filmovi::fOcjena(){
     if(OcjeneFilma.size()<1)
      {
