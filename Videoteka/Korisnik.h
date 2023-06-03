@@ -19,7 +19,7 @@ void unosIme(string inf2);
 void unosLoginSifra(string inf3);
 void povecaj_brUzFilmova();
 void smanji_brUzFilmova();
-bool VratiFilm(string Film);
+void VratiFilm(string Film);
 void UzmiFilm(string Film);
 
     string Nadimak;
