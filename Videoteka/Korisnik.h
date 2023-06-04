@@ -1,5 +1,6 @@
 #ifndef KORISNIK_H //ovo sprjecava da header bude inkludan vise puta
 #define KORISNIK_H
+
 #include <vector>
 #include <string>
 
@@ -19,7 +20,7 @@ void unosIme(string inf2);
 void unosLoginSifra(string inf3);
 void povecaj_brUzFilmova();
 void smanji_brUzFilmova();
-bool VratiFilm(string Film);
+void VratiFilm(string Film);
 void UzmiFilm(string Film);
 
     string Nadimak;
@@ -27,6 +28,9 @@ void UzmiFilm(string Film);
     string LoginSifra;              //private memberi klase Korisnik
     vector <string> Uzeti_filmovi;
 unsigned int brojUzetihFilmova=0;
+    bool upozorenje=false;
+    string porukaUpoz;
+unsigned int brojUpozorenja=0;
     bool Admin=false;
 
 
