@@ -28,6 +28,9 @@ void PokaziFilmove(vector<Filmovi> ListaFilmova);//---------> Basic output funkc
 void NarucivanjeFilmova(vector<Filmovi>& ListaFilmova,Korisnici& TrenKorisnik); //------------------> Funkcija narucivanja filma
 void VracanjeFilmova(vector<Filmovi>& ListaFilmova,Korisnici& TrenKorisnik); //---------------------> Funkcija vracanja i ocjenjivanja filma
 void PokaziKorisnike(vector<Korisnici> ListaKorisnika); //------------------>Funkcija za listanje korisnika
+void EditujFilmove(vector<Filmovi>& ListaFilmova); //------------------------>Funkcija za editovanje liste filmova
+void BrisanjeFilma(vector<Filmovi>& ListaFilmova); //------------------------>Funkcija brisanja filma
+void DodavanjeFilma(vector<Filmovi>& ListaFilmova); //-----------------------> Funkcija za dodavanje filmova
 void PreviseGresaka();//------------------------------------>Ukratko-funkcija poziva sekvencu gasenja
 void Sekvenca_Gasenja(); //---------------------------------> Funkcija koja gasi program
 // Ovo je samo da razdvojim deklaracije funkcija od samij funkcija pošto je već postano previše zagušeno
@@ -258,7 +261,7 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
          cout << "|[5]-EXIT                       |" << endl;
          cout << "|-------------------------------|" << endl;
 
-         while (!(cin >> Aizbor) || (Aizbor <1) || (Aizbor>4))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
+         while (!(cin >> Aizbor) || (Aizbor <1) || (Aizbor>5))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
              {
               cin.clear();
               cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Dozvoljava samo unos borjeva
@@ -266,7 +269,7 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
              }
              if(Aizbor==1) PokaziFilmove(ListaFilmova);
 
-        else if(Aizbor==2) cout<<"izbor2"<<endl;
+        else if(Aizbor==2) EditujFilmove(ListaFilmova);
 
         else if(Aizbor==3) PokaziKorisnike(ListaKorisnika);
 
@@ -278,6 +281,131 @@ void GlavniMeni(vector<Filmovi>& ListaFilmova, vector<Korisnici>& ListaKorisnika
                          }
       }
     }
+}
+void EditujFilmove(vector<Filmovi>& ListaFilmova)
+{
+ system("CLS");
+  int Aizbor2=0;
+  while(Aizbor2!=5)
+      {  PokaziFilmove(ListaFilmova);
+         cout << "       Editovanje Filmova:       " << endl;
+         cout << "|-------------------------------|" << endl;
+         cout << "|[1]-Izbrisi film               |" << endl;
+         cout << "|[2]-Dodaj novi film            |" << endl;
+         cout << "|[3]-Povecaj broj filmova       |" << endl;
+         cout << "|[4]-Smanji broj filmova        |" << endl;
+         cout << "|[5]-<----NAZAD<----            |" << endl;
+         cout << "|-------------------------------|" << endl;
+
+         while (!(cin >> Aizbor2) || (Aizbor2 <1) || (Aizbor2>5))  //unos Login_izbora i provjera da li je jedna od valjanih vrijednosti
+             {
+              cin.clear();
+              cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Dozvoljava samo unos borjeva
+              cout << "Molimo unesite valjan izbor :" << endl;
+             }
+            if(Aizbor2==1) BrisanjeFilma(ListaFilmova);
+
+       else if(Aizbor2==2) DodavanjeFilma(ListaFilmova);
+
+       else if(Aizbor2==3) {
+                            cout<<"Redni broj filma kojeg zelite dodati u skladiste: ";
+                            int broj ;
+                            cin>>broj;
+                           while(broj>ListaFilmova.size() || broj<1)
+                                   {
+                                    cout<<"\nTog rednog broja nema na listi, pogledajte listu iznad i pokusajte ponovo."<<endl;
+                                    cin>>broj;
+                                   }
+                            broj--;
+                            cout<<"Koliko kopija filma "<<ListaFilmova[broj].ImeFilma<<" zelite dodati?"<<endl;
+                            int cifra;
+                            cin>>cifra;
+                             for(int i=0;i<cifra;i++)
+                                {
+                                 ListaFilmova[broj].povecajBroj_filmova();
+                                }
+                           }
+
+       else if(Aizbor2==4) {
+                            cout<<"Redni broj filma kojem zelite smanjiti kolicine u skladistu: ";
+                            int broj ;
+                            cin>>broj;
+                           while(broj>ListaFilmova.size() || broj<1)
+                                   {
+                                    cout<<"\nTog rednog broja nema na listi, pogledajte listu iznad i pokusajte ponovo."<<endl;
+                                    cin>>broj;
+                                   }
+                            broj--;
+                            cout<<"Koliko kopija filma "<<ListaFilmova[broj].ImeFilma<<" zelite oduzeti?"<<endl;
+                            int cifra;
+                            cin>>cifra;
+                             for(int i=0;i<cifra;i++)
+                                {
+                                 ListaFilmova[broj].smanjBroj_filmova();
+                                }
+                           }
+
+       else if(Aizbor2==5) return;
+
+      }
+}
+void DodavanjeFilma(vector<Filmovi>& ListaFilmova)
+{
+   system("CLS");
+   string imeNfilm, zanrNfilm;
+   unsigned int brojNfilma;
+   Filmovi NoviFilm;
+   cout<<"Skladistar: 'Uredu, za dodavanje novog filma trebat ce mi njegovo ime, zenr i kolicina.'"<<endl;
+   cout<<"Skladistar: 'Molim Vas pazljivo unosite informacije zbog papirologije :D '"<<endl;
+   cout<<"Ime? -";
+   cin>>imeNfilm;
+   cout<<"Zanr filma? -";
+   cin>>zanrNfilm;
+   cout<<"Koliko ih ima? -";
+   cin>>brojNfilma;
+   NoviFilm.unosFIme(imeNfilm);
+   NoviFilm.unosFZanr(zanrNfilm);
+   NoviFilm.unosFBroj_filmova(brojNfilma);
+   Sleep(800);
+   system("CTL");
+   cout<<"Film spremljen!"<<endl;
+   getch();
+   return;
+}
+void BrisanjeFilma(vector<Filmovi>& ListaFilmova)
+{
+ cout<<"_________---------_________!!PAZNJA!!_________---------_________"<<endl;
+ cout<<"Prije brisanja filma, provjerite da li neki od korisnika trenutno ima taj film kod sebe."<<endl;
+ cout<<"\n\n\n Jeste li sigurni da zelite nastaviti? (y/n)"<<endl;
+ char ch;
+ cin>>ch;
+ if(ch== 'y' || ch=='Y')
+    {
+     cout<<"Unesite redni broj filma kojeg zelite obrisati"<<endl;
+     int redniBroj=0;
+     cin>>redniBroj;
+     redniBroj--;
+     cout<<"Jeste li sigurni da zelite obrisati film '"<<ListaFilmova[redniBroj].ImeFilma<<"' ?(y/n)"<<endl;
+     char potvrda;
+     cin>>potvrda;
+     if(potvrda== 'y' || potvrda=='Y')
+        {
+         ListaFilmova.erase(ListaFilmova.begin() + redniBroj);
+         cout<<"Film obrisan uspjesno"<<endl;
+         getch();
+        }
+     else if(potvrda== 'n' || potvrda=='N')
+        {
+         cout<<"Brisanje filma ponisteno"<<endl;
+         getch();
+        }
+     }
+else if(ch== 'n' || ch=='N')
+     {
+      cout<<"Brisanje filma ponisteno"<<endl;
+      getch();
+     }
+ return;
 }
 void PokaziFilmove(vector<Filmovi> ListaFilmova)//-------> Ispisuje potpunu listu filmova korisniku na prozor
 {

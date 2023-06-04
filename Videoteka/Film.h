@@ -17,7 +17,7 @@ void smanjBroj_filmova();
 void povecajBroj_filmova();
 void unosFIme(string podatak1);
 void unosFZanr(string podatak2);
-void unosFBroj_filmova(int podatak3);
+void unosFBroj_filmova(unsigned int podatak3);
 void unosFOcjene(int podatak4);
 
     string ImeFilma;

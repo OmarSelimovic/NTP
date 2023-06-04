@@ -32,11 +32,11 @@ void Filmovi::povecajBroj_filmova(){
   Broj_filmova++;
 }
 float Filmovi::fOcjena(){
-    if(OcjeneFilma.size()<1)
+ if(OcjeneFilma.size()<1)
      {
        return 0;
      }
-    else
+ else
     {
        float b=0;
        unsigned int q;
@@ -58,7 +58,7 @@ void Filmovi::unosFZanr(string podatak2){
  ZanrFilma=podatak2;
 }
 
-void Filmovi::unosFBroj_filmova(int podatak3){
+void Filmovi::unosFBroj_filmova(unsigned int podatak3){
  Broj_filmova=podatak3;
 }
 
