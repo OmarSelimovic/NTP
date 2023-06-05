@@ -22,6 +22,10 @@ void povecaj_brUzFilmova();
 void smanji_brUzFilmova();
 void VratiFilm(string Film);
 void UzmiFilm(string Film);
+void povecaj_brUpozorenja();
+void ocistiUpozorenja();
+void unosPorukeUpoz(string inf4);
+void brisanjePorukeUpoz();
 
     string Nadimak;
     string Ime;

@@ -28,7 +28,6 @@ unsigned int Korisnici::getBrUzFilmova(){ //funkcija koja vraca broj uzetih film
 }
 void Korisnici::UzmiFilm(string Film){ //funkcija koja ubacuje novouzeti film u inventory osobe
       Uzeti_filmovi.push_back(Film);
-      cout<<"\n \n Uzivajte u gledanju ^_^"<<endl;
       povecaj_brUzFilmova();
 }
 void Korisnici::VratiFilm(string Film){ //funkcija koja vadi film sa liste uzetih filmova
@@ -57,7 +56,18 @@ void Korisnici::unosIme(string inf2){ // funkcija koja unosi ime novom useru
 void Korisnici::unosLoginSifra(string inf3){ //funkcija koja unosi password novom useru
      LoginSifra=inf3;
 }
-
+void Korisnici::povecaj_brUpozorenja(){
+    brojUpozorenja++;
+}
+void Korisnici::ocistiUpozorenja(){
+    brojUpozorenja=0;
+}
+void Korisnici::unosPorukeUpoz(string inf4){
+  porukaUpoz=inf4;
+}
+void Korisnici::brisanjePorukeUpoz(){
+  porukaUpoz.clear();
+}
 
 
 

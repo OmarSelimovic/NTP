@@ -31,6 +31,7 @@ void Filmovi::smanjBroj_filmova(){
 void Filmovi::povecajBroj_filmova(){
   Broj_filmova++;
 }
+
 float Filmovi::fOcjena(){
  if(OcjeneFilma.size()<1)
      {
@@ -38,12 +39,12 @@ float Filmovi::fOcjena(){
      }
  else
     {
-       float b=0;
-       unsigned int q;
-       for(int i=0;i<OcjeneFilma.size();i++)
+       float b=0.0;
+       unsigned int q=0;
+       for(int k=0;k<OcjeneFilma.size();k++)
         {
-          b=b+OcjeneFilma[i];
-          q=i;
+          b=b+OcjeneFilma[k];
+          q++;
         }
       b=b/q;
      return b;
