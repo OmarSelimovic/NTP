@@ -1,16 +1,16 @@
-#include <iostream>
-#include <cstdlib>
-#include <limits>
-#include <string>
-#include <vector>
+#include <iostream> //Ova biblioteka omogućava unos i ispis podataka
+#include <cstdlib> //Ova biblioteka sadrži nekoliko funkcija za manipulaciju s podacima.Npr. funkcija stoi pretvara string u cjelobrojni broj.
+#include <limits> //Koristit cemo je za ogranicavanje određenih variajbli
+#include <string> //Upotreba stringova i svih popratnih funkcija
+#include <vector> //Upotreva vektora i svih popratnih funkcija
 #include <stdlib.h>
-#include <windows.h>
-#include <algorithm>
-#include <conio.h>  //Koristit cu ga samo za getch();---> "pritisnite dugme da nastavite"
-#include <fstream>
-#include <sstream>
-#include "Korisnik.h"
-#include "Film.h"
+#include <windows.h> //Ova biblioteka je specifična za Windows i koristimo ih za manipulacija prozorima
+#include <algorithm> //Sadrži različite funkcije za obavljanje općih algoritama, kao što su sortiranje, pretraživanje, i manipulacija
+#include <conio.h>  // Specificno za Windows, Koristit cu ga samo za getch();---> "pritisnite dugme da nastavite"
+#include <fstream> // Ova biblioteka omogućava rad s datotekama. Sadrži klase i funkcije za unos i izlaz podataka iz datoteka.
+#include <sstream> //Ova biblioteka sadrži klase i funkcije za rad s tekstualnim tokovima. Manipulacija s stringovima, konverzija između različitih tipova podataka i slično.
+#include "Korisnik.h" //Lokalni header fajl za klasu/strukturu Korisnici
+#include "Film.h" //Lokalni header fajl za klasu/strukturu Filmovi
 
 
 using namespace std;
