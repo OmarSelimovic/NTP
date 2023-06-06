@@ -428,9 +428,9 @@ void SpremanjeListeFilmova(const vector<Filmovi>& ListaFilmova, const string& im
   ofstream file(imefajla);
     if (file.is_open())
        {
-        for (const auto& film : ListaFilmova)
+        for (const auto& film : ListaFilmova) //--------> ovo "auto" znaci da compiler automatski oređuje tip varijable
             {
-             file << film.ImeFilma << "$"
+             file << film.ImeFilma << "$"     //--------> kao denominator sam izabrao znak $ (Dollar separated values :3)
                   << film.ZanrFilma << "$"
                   << film.Broj_filmova << "$"
                   << film.OcjeneFilma.size();
@@ -591,7 +591,7 @@ void BrisanjeKorisnika(vector<Korisnici>& ListaKorisnika)
 {
  cout<<"!!UPOZORENJE!! Brisanje korisnika ce obrisati sve informacije o njima"<<endl;
  cout<<"Ova promjena je stalna i prije upotrebe je potrebno utvrditi da je korisnik vratio sve filmove\n\n\n"<<endl;
- cout<<"Jeste li sigurni da zelite nastaviti?"<<endl;
+ cout<<"Jeste li sigurni da zelite nastaviti?(y/n)"<<endl;
      char ch;
      cin>>ch;
      if (ch== 'n' || ch== 'N')
