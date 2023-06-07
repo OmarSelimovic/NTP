@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1685999468 source:d:\github\ntp-os\videoteka\film.cpp
+	<iostream>
+	<cstdlib>
+	<string>
+	<vector>
+	"Korisnik.h"
+	"Film.h"
+
+1685985074 d:\github\ntp-os\videoteka\korisnik.h
+	<vector>
+	<string>
+
+1685902937 d:\github\ntp-os\videoteka\film.h
+	<vector>
+	<string>
+
+1685999979 source:d:\github\ntp-os\videoteka\korisnik.cpp
+	<iostream>
+	<cstdlib>
+	<string>
+	<vector>
+	"Korisnik.h"
+	"Film.h"
+
+1686163145 source:d:\github\ntp-os\videoteka\main.cpp
+	<iostream>
+	<cstdlib>
+	<limits>
+	<string>
+	<vector>
+	<stdlib.h>
+	<windows.h>
+	<algorithm>
+	<conio.h>
+	<fstream>
+	<sstream>
+	"Korisnik.h"
+	"Film.h"
+

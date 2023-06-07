@@ -797,7 +797,7 @@ void PokaziKorisnike(vector<Korisnici> ListaKorisnika) //-----> Ispisuje potpunu
                  cout<<"Lista uzetih filmova:"<<endl;
                  for(unsigned int b=0;b<buffer.brojUzetihFilmova;b++)
                      {
-                      cout<<"["<<b+1<<".]-"<<buffer.Uzeti_filmovi[i]<<endl;
+                      cout<<"["<<b+1<<".]-"<<buffer.Uzeti_filmovi[b]<<endl;
                      }
                 }
          }
